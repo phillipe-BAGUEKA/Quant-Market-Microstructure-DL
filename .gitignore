@@ -1,0 +1,33 @@
+# Challenge data
+data/
+*.csv
+*.parquet
+*.zip
+
+# Trained models and generated artifacts
+models/
+artifacts/
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# C++
+build/
+cmake-build-*/
+*.exe
+*.obj
+*.o
+
+# IDE and operating system
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
