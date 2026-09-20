@@ -1,5 +1,5 @@
 # Challenge data
-data/
+/data/
 *.csv
 *.parquet
 *.zip
@@ -31,3 +31,4 @@ cmake-build-*/
 .idea/
 .DS_Store
 Thumbs.db
+**pycache**/
