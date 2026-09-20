@@ -121,3 +121,17 @@ and any chronology available beyond the row order inside each observation.
 Compact data types also require explicit range and precision checks. No score,
 normalization, feature engineering, train/validation split, tensor, trained
 model, training loop, C++ component, or submission is present.
+
+## Data semantics and aggregate profiling
+
+The official column contract and benchmark reference are paraphrased in
+`docs/challenge_data_contract.md`; the benchmark is documented only. Regenerate
+an aggregate-only profile without retaining the complete feature CSV in memory:
+
+```powershell
+$env:PYTHONDONTWRITEBYTECODE = "1"
+.\.venv\Scripts\python.exe -m cfm_challenge.data.profiling --chunk-size 100000 --output reports/train_feature_profile.md
+```
+
+The report separates official rules from local aggregate observations. It never
+prints source rows or individual identifiers, and it does not correct data.
