@@ -135,3 +135,9 @@ $env:PYTHONDONTWRITEBYTECODE = "1"
 
 The report separates official rules from local aggregate observations. It never
 prints source rows or individual identifiers, and it does not correct data.
+
+## Internal validation protocol
+
+`cfm_challenge.evaluation.split_audit` creates a stratified internal lockbox,
+development folds, and a candidate-block sensitivity check. Neither split is
+presented as temporal validation; see `docs/validation_protocol.md`.
