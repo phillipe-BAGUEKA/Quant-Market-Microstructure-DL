@@ -1,0 +1,12 @@
+{
+  "stage": "stopped_before_x",
+  "exit_code": 1,
+  "reason": "Available RAM below the predeclared 1 GiB full-cache start threshold",
+  "exact_available_bytes_at_failure": null,
+  "full_cache_created": false,
+  "x_scanned": false,
+  "planned_rows": 128640,
+  "planned_chunk_size": 20000,
+  "planned_max_seconds": 600,
+  "note": "The failing command checked available memory but did not print its exact value. No estimate is substituted."
+}

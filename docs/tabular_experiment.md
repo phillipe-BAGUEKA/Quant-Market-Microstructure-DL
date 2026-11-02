@@ -86,7 +86,7 @@ de confusion, configuration, versions, état Git, temps et mémoire. Les moyenne
 et écarts types (`ddof=0`) sont descriptifs. Aucun score officiel d'agrégation ni
 macro-F1 de prédictions hors fold regroupées n'est revendiqué.
 
-## Suite décidée, non implémentée ici
+## Suite du programme
 
 Le programme comprend B0, régression logistique, CNN 1D, GRU bidirectionnel,
 CNN–LSTM (direction à concevoir), TCN, InceptionTime et MiniRocket multivarié
@@ -94,12 +94,13 @@ avec un classifieur compatible avec les métriques. CatBoost est exclu. TCN,
 InceptionTime et MiniRocket sont étudiés séparément, en parallèle du développement ;
 cet apprentissage ne constitue plus un prérequis à leur implémentation.
 
-Les résumés tabulaires ne reconstruisent pas les événements ordonnés. Un futur
-cache séquentiel conservera les 100 événements, canaux numériques et catégories
-brutes typées, identifiants et indices sources. Les vocabulaires et paramètres
-de normalisation resteront propres aux trains. Sa construction demandera un
-nouveau parcours. Un stockage sur disque mappable évitera de matérialiser les
-embeddings et les cinq copies de données en mémoire.
+Les résumés tabulaires ne reconstruisent pas les événements ordonnés. Le
+[jalon séquentiel](sequences.md) conserve les 100 événements, canaux numériques,
+catégories brutes, identifiants et indices sources dans des tableaux mappés.
+Il est qualifié sur des données synthétiques et 512 observations réelles ; le
+cache complet reste à construire. Les vocabulaires et normalisations restent
+propres au train. Ce cache nécessite une nouvelle lecture de X et ne matérialise
+ni embeddings globaux ni cinq copies des données.
 
 Le rôle C++ proposé est la préparation commune par lots, choisie après profilage
 séparant lecture, assemblage, conversions et transformations par événement.
@@ -107,7 +108,7 @@ Mesurer séparément le gain du cache, du calcul C++ et de l'interface ; aucun d
 ces gains n'est automatiquement un gain d'entraînement. Aucun compilateur,
 binding ou nouveau modèle n'est installé ou implémenté pendant ce jalon.
 
-### Contrat proposé pour le prochain cache séquentiel
+### Contrat séquentiel : implémentation et qualification bornée
 
 - Une ligne logique par observation de développement, avec correspondance exacte
   entre identifiant, label et indice source ; axe événement de longueur 100,
@@ -127,11 +128,11 @@ supplémentaires. Ce sont des tailles de stockage des valeurs, pas une estimatio
 de la RAM d'entraînement : activations, lots, gradients et états d'optimisation
 s'ajoutent. Les codes et bornes exacts seront vérifiés avant tout choix de dtype.
 
-Le prochain jalon recommandé est la qualification synthétique puis bornée de
-ce cache ordonné, suivie d'un pilote CNN 1D et GRU bidirectionnel à budget fixé.
-Le profilage distinguera alors lecture/assemblage et calculs par événement pour
-choisir un éventuel noyau C++. Le coût mesuré des agrégats tabulaires ne suffit
-pas à désigner le goulot du futur pipeline séquentiel.
+La qualification synthétique et les pilotes CPU bornés CNN 1D/GRU bidirectionnel
+sont terminés ; voir le [bilan séquentiel](../reports/experiments/20261103-sequence-results.md).
+Le cache complet reste à construire après résolution de la contrainte mémoire.
+Le coût mesuré des agrégats tabulaires ne suffit pas à désigner le goulot du
+pipeline séquentiel ; le profilage de celui-ci est rapporté séparément.
 
 Trois questions de compréhension pour relire ce jalon :
 

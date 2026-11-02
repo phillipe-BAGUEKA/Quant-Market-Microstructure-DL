@@ -20,6 +20,10 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+sequences = [
+  "torch>=2.14,<3.0",
+  "psutil>=5.9,<8.0",
+]
 dev = [
   "pytest>=9,<10",
 ]

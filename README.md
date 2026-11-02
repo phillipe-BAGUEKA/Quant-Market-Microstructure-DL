@@ -18,8 +18,9 @@ restent des hypothèses distinctes à tester.
 | B0 : DummyClassifier(strategy="prior") | Évaluée sur cinq folds avec vrais labels |
 | B1 : StandardScaler + régression logistique | Évaluée et convergée sur cinq folds réels |
 | Folds par blocs candidats | Implémentés pour sensibilité ; aucune campagne B0/B1 complète avec ce découpage |
-| Cache de séquences ordonnées | Contrat proposé ; prochain jalon |
-| CNN 1D, GRU bidirectionnel, CNN–LSTM, TCN, InceptionTime, MiniRocket multivarié | Prévus ; aucune évaluation complète |
+| Cache de séquences ordonnées | Implémenté et testé ; cache réel de 512 observations qualifié ; cache complet non construit |
+| CNN 1D, GRU bidirectionnel | Implémentations pilotes ; huit lots CPU de train réussis, aucune évaluation de validation |
+| CNN–LSTM, TCN, InceptionTime, MiniRocket multivarié | Prévus ; pas encore implémentés |
 | Composante C++ | Prévue après profilage ; aucun noyau implémenté |
 
 CatBoost est exclu. L'étude théorique de TCN, InceptionTime et MiniRocket avance
@@ -82,13 +83,19 @@ Expérience du 2 novembre 2026 ; les cinq folds B1 ont convergé sans avertissem
 | B1 — 4 | 0,277091 | 0,266027 | 2,293377 |
 | B1 — moyenne descriptive | **0,278016** | **0,266698** | **2,282292** |
 
-La moyenne des macro-F1 n'est pas celle des prédictions hors fold réunies.
+La moyenne des macro-F1 ne coïncide pas nécessairement avec la macro-F1 calculée
+sur les prédictions hors fold réunies.
 Les dispersions ne sont pas des intervalles de confiance de cinq expériences
 indépendantes. Le [rapport complet](reports/experiments/20261102-tabular-results.md)
 décrit les incidents, temps, mémoire et limites. Le
 [manifeste original](reports/experiments/20261102-tabular-final-2000/manifest.json)
 conserve les paramètres et empreintes réellement exécutés.
 Les modèles ajustés n'ont pas été sérialisés ; les résultats sont conservés.
+
+Les [pilotes séquentiels](reports/experiments/20261103-sequence-results.md) vérifient
+les dimensions, la loss et la rétropropagation sur un sous-ensemble du train.
+Ils ne fournissent aucun score comparable au tableau B0/B1. La préparation du
+cache complet s'est arrêtée au contrôle mémoire avant toute lecture de X.
 
 ## Installation et contrôles courts
 
@@ -115,6 +122,12 @@ Le [rapport d'environnement](reports/environment.md) et le
 initiale, dont PyTorch CPU. Un freeze ne conserve pas l'index CPU :
 installer torch depuis `https://download.pytorch.org/whl/cpu` avant de reproduire
 ce relevé. Les versions des expériences sont celles de leurs manifestes.
+
+Les modules séquentiels demandent l'extra optionnel `sequences` (torch, psutil).
+Installer d'abord torch depuis l'index CPU si souhaité, puis `pip install -e
+".[dev,sequences]"` depuis PyPI ; voir les commandes exactes du
+[guide séquentiel](docs/sequences.md). Les tests des réseaux sont ignorés si torch
+n'est pas installé ; cela ne constitue pas une validation de ces réseaux.
 
 ## Reproduire B0/B1
 
@@ -151,6 +164,10 @@ src/cfm_challenge/
     reference.py            oracle numérique indépendant
     summary_cache.py        stockage et reprise
     experiment.py           campagne observable et archivage
+  sequences/
+    cache.py                séquences brutes ordonnées et reprise
+    models.py               encodeur train-only, petits CNN/GRU pilotes
+    pilot.py                pilote CPU borné, sans score de validation
 tests/unit/                 tests synthétiques
 docs/                       contrats et guides actuels
 reports/                    preuves historiques
@@ -163,8 +180,10 @@ historiques pour actualiser l'état courant.
 
 ## Prochaines étapes
 
-1. Qualifier le cache des 100 événements ordonnés, indépendant des folds.
-2. Mesurer des pilotes CPU bornés CNN 1D et GRU bidirectionnel.
+1. Construire le cache complet des événements lorsque la RAM disponible permet
+   le garde initial de 1 Gio ; le cache et les pilotes bornés sont déjà qualifiés.
+2. Mesurer une première époque CNN 1D/GRU sur un fold avec un budget fixé, avant
+   toute campagne complète. Aucun score séquentiel de validation n'existe encore.
 3. Comparer les autres familles retenues avec des budgets explicités.
 4. Profiler lecture/assemblage, transformations, chargement et réseau avant
    de choisir un noyau C++ commun aux modèles séquentiels.
