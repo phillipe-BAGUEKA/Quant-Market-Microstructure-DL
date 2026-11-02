@@ -14,7 +14,17 @@ où `bid_0` est le meilleur bid du premier événement. Le train provient d'une 
 
 ## Référence de benchmark
 
-La page décrit une représentation `(100, 30)`, des embeddings pour `venue`, `action` et `trade`, des variables continues (`bid`, `ask`, `price`, tailles et `flux`), un GRU bidirectionnel, 24 logits et CrossEntropy. C'est une référence, pas l'architecture retenue ici; elle omet `side` et `order_id`. Sa mention de `log(flux)` est ambiguë puisque des flux négatifs sont observés. Aucune transformation logarithmique de `flux` ne sera appliquée avant clarification.
+La page décrit une représentation `(100, 30)`, des embeddings pour `venue`,
+`action` et `trade`, des variables continues (`bid`, `ask`, `price`, tailles et
+`flux`), un GRU bidirectionnel, 24 logits et CrossEntropy. C'est une référence
+documentaire ; le GRU bidirectionnel fait partie du programme du projet, mais
+cette architecture exacte n'a pas été reproduite. Elle omet `side` et `order_id`.
+Sa mention de `log(flux)` est ambiguë puisque des flux négatifs sont observés.
+Aucune transformation logarithmique de `flux` n'est appliquée sans contrat adapté.
+
+Les modèles B0/B1 utilisent le protocole et les représentations décrits dans le
+[README actuel](../README.md). Une baseline tabulaire à 50 agrégats ne reproduit
+pas la représentation séquentielle du benchmark.
 
 ## Volumétrie publiée et locale
 

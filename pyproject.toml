@@ -13,8 +13,10 @@ authors = [
   { name = "Phillipe BAGUEKA" },
 ]
 dependencies = [
+  "numpy>=2.5,<3.0",
   "pandas>=2.2,<3.1",
   "scikit-learn>=1.5,<2.0",
+  "threadpoolctl>=3.5,<4.0",
 ]
 
 [project.optional-dependencies]

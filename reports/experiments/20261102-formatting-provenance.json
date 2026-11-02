@@ -1,0 +1,74 @@
+{
+  "formatter": "black 25.1.0 (isolated temporary tool)",
+  "historical_runs_reexecuted": false,
+  "files": [
+    {
+      "path": "src/cfm_challenge/baselines/__init__.py",
+      "before_sha256": "b8241865421bc7783288b8d6ea5d7481e7219444f2be2c1d38a3bcae1f6add1e",
+      "after_sha256": "b8241865421bc7783288b8d6ea5d7481e7219444f2be2c1d38a3bcae1f6add1e",
+      "ast_identical": true
+    },
+    {
+      "path": "src/cfm_challenge/baselines/aggregation.py",
+      "before_sha256": "b528b0504e17d4609dc512888d979fd5bc1f8c1192f3a7916075efecc7482394",
+      "after_sha256": "bbeda3c53de21b255dd04184f804c97fe4296927554a407bb972a49b36c5a726",
+      "ast_identical": true
+    },
+    {
+      "path": "src/cfm_challenge/baselines/dataset.py",
+      "before_sha256": "5c3742a138e57454656fef6bb61f97ba7cc06f83d7f8959ccab77976bba00099",
+      "after_sha256": "f114578460d943ab2660208f19be409d1cca44e9e3ec80203a65972c88e76de8",
+      "ast_identical": false,
+      "module_docstring_updated": true,
+      "ast_identical_except_module_docstring": true
+    },
+    {
+      "path": "src/cfm_challenge/baselines/experiment.py",
+      "before_sha256": "ae89b296b043e66a4cee2c69a70f19e1b20857ba75ce2c048c1adad2bd8bba27",
+      "after_sha256": "6f6e8e00eef2bb06cc3040bd35618b524765e5be9ac8ce0a84bd2ceed0b44f2f",
+      "ast_identical": true
+    },
+    {
+      "path": "src/cfm_challenge/baselines/reference.py",
+      "before_sha256": "83c4c5178211b95e7f294aab7b06bc8df472878556f96158bdc822a9bf9fe4dc",
+      "after_sha256": "b9ad066ec82c560d574ff78f9566c768b44e4a5b588f8f009c86296a20500f98",
+      "ast_identical": true
+    },
+    {
+      "path": "src/cfm_challenge/baselines/summary_cache.py",
+      "before_sha256": "8d18430348afd9aefb987dbeb5b4eb0af15d0e75cb113971bd9f7560b12df3be",
+      "after_sha256": "0467a6ed9e38df2022494130a29829bdf51c25a10f282581aadff82c0ec5d9ce",
+      "ast_identical": true
+    },
+    {
+      "path": "src/cfm_challenge/baselines/tabular.py",
+      "before_sha256": "dadccd9356c9b03cdcd9bef7595d922fc36e21dc9648abd1b34776498b5ac213",
+      "after_sha256": "00540c646ccf1e5a248239f55ecd96c5ce95cd281102b9bf82e1f6588a83b9ef",
+      "ast_identical": true
+    },
+    {
+      "path": "tests/unit/test_baseline_aggregation.py",
+      "before_sha256": "97bb43fa90ee0a0f5eadfa49fe753651a20bcb32ce8a8051b7e027cbd3fb575e",
+      "after_sha256": "44414cb85914e0ed5a6a56a1dfdc5fbefb07f743b839c299834b0bec794ed92b",
+      "ast_identical": true
+    },
+    {
+      "path": "tests/unit/test_baseline_dataset.py",
+      "before_sha256": "fa075e3ac01314c8869192410d2eede9ecc061bf4d9d60beba43502b5d5165f3",
+      "after_sha256": "5d774418f0a8a12c447a4f4fbeac8cdf8bbf8fd694cc1f43669c211c7f0e2094",
+      "ast_identical": true
+    },
+    {
+      "path": "tests/unit/test_baseline_qualification.py",
+      "before_sha256": "771a683151f2e02bb893ee44ed457fa20c0ea569259de6e6e1add2fe649dc37b",
+      "after_sha256": "8e4212eaf5b627d0a6e5cd13ae9a334348ee40ed6ccee3194f385e0fc05313ba",
+      "ast_identical": true
+    },
+    {
+      "path": "tests/unit/test_tabular_baseline.py",
+      "before_sha256": "ea3e68ace1491d659839a1069121525b15860079b7c566b8569a5548b74c6c97",
+      "after_sha256": "15f245a78ea251320c25d7ca6642d88cea294aeba4027427a8724283fc86f29f",
+      "ast_identical": true
+    }
+  ]
+}
