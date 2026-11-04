@@ -1,0 +1,41 @@
+{
+  "model": "BiGRU",
+  "fold": 0,
+  "complete": false,
+  "train_rows_completed": 20352,
+  "validation_rows_completed": 0,
+  "train_batches_completed": 636,
+  "validation_batches_completed": 0,
+  "train_rows_expected": 102912,
+  "validation_rows_expected": 25728,
+  "initialization_seconds": 0.0036925000604242086,
+  "train_loading_encoding_seconds": 1.0797238996019587,
+  "train_compute_seconds": 639.9159191998187,
+  "validation_loading_encoding_seconds": 0.0,
+  "validation_forward_seconds": 0.0,
+  "metric_seconds": 0.0,
+  "optimizer": "Adam",
+  "optimizer_defaults": {
+    "lr": 0.001,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0,
+    "amsgrad": false,
+    "maximize": false,
+    "foreach": null,
+    "capturable": false,
+    "differentiable": false,
+    "fused": null,
+    "decoupled_weight_decay": false
+  },
+  "parameters": 4440,
+  "error_type": "RuntimeError",
+  "error": "600-second model budget reached; controlled stop",
+  "last_stage": "train",
+  "total_seconds": 641.3195455999812,
+  "training_cross_entropy_completed_rows": 2.8749455569675133,
+  "process_peak_rss_mib": 1186.48046875
+}

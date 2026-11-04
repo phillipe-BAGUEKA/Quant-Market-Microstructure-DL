@@ -134,6 +134,10 @@ sont terminés ; voir le [bilan séquentiel](../reports/experiments/20261103-seq
 Le cache complet a ensuite été construit en 385,70 secondes, avec contrôles
 mémoire et d'alignement ; le [nouveau bilan](../reports/experiments/20261104-sequence-results.md)
 est séparé des pilotes historiques.
+La [reprise du fold 0](../reports/experiments/20261104-sequence-retry-results.md)
+a ensuite terminé une époque CNN et BiGRU, avec validation complète. B1 reste
+la référence tabulaire convergée sur cinq folds ; les réseaux ne sont qualifiés
+qu'à une époque sur un seul fold, sans conclusion définitive sur les architectures.
 Le coût mesuré des agrégats tabulaires ne suffit pas à désigner le goulot du
 pipeline séquentiel ; le profilage de celui-ci est rapporté séparément.
 

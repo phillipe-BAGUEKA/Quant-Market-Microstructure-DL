@@ -85,9 +85,11 @@ Un manque de mémoire disponible arrête le pilote aux jalons de contrôle.
 
 ## Lanceur d'une époque complète sur le fold 0
 
-Le [bilan réel](../reports/experiments/20261104-sequence-results.md) distingue
-cache terminé, exécution tentée et éventuels arrêts. Le lanceur ne constitue
-pas à lui seul la preuve qu'une époque et sa validation ont terminé.
+Le [bilan du cache](../reports/experiments/20261104-sequence-results.md) conserve
+la première interruption mémoire. La [reprise terminée](../reports/experiments/20261104-sequence-retry-results.md)
+documente désormais une époque et une validation complète du fold 0 pour les
+deux réseaux, ainsi que la veille Windows qui avait interrompu le BiGRU auparavant.
+Ce n'est pas une campagne à cinq folds.
 
 `sequences.experiment` utilise les architectures `PilotCNN` et `PilotBiGRU`
 existantes. Il exige un cache de développement **déjà complet** : cette commande
@@ -95,8 +97,24 @@ ne prépare pas X et refuse un checkpoint partiel avant d'avancer le lecteur.
 
 ```powershell
 $env:PYTHONDONTWRITEBYTECODE = "1"
-.\.venv\Scripts\python.exe -u -m cfm_challenge.sequences.experiment --cache data/processed/20261104-sequences-development --output reports/experiments/sequence-fold0-new
+@'
+from pathlib import Path
+import psutil
+from cfm_challenge.sequences.experiment import run
+
+if psutil.virtual_memory().available < 2560 * 2**20:
+    raise RuntimeError("Au moins 2,5 Gio disponibles après imports sont requis")
+run(
+    Path("reports/experiments/sequence-fold0-new"),
+    Path("data/processed/20261104-sequences-development"),
+)
+'@ | .\.venv\Scripts\python.exe -u -
 ```
+
+Cette enveloppe contrôle les **2,5 Gio disponibles après imports** ; la CLI
+seule conserve seulement le garde de 384 Mio. Les [commandes réellement exécutées](../reports/experiments/20261104-sequence-retry-commands.md)
+ajoutent la vérification des empreintes et une interdiction d'ouvrir X/test.
+Garder le capot ouvert : une veille est comptée dans le budget de temps écoulé.
 
 Le dossier de résultat doit être neuf. Le protocole reste 20 % de lockbox,
 cinq folds stratifiés, graine 42 ; seul le fold 0 est exécuté. Les indices
@@ -111,6 +129,7 @@ inchangé pour les 25 728 lignes de validation et pour les deux réseaux.
 | Taille des lots | 32, dernier lot conservé |
 | Ordre du train | permutation NumPy déterministe, graine 42 |
 | CPU | deux threads PyTorch, algorithmes déterministes |
+| RAM initiale | au moins 2,5 Gio après imports |
 | Budget par modèle | 600 s : initialisation, train, validation et métriques |
 | Arrêt mémoire | RAM disponible sous 384 Mio |
 
@@ -134,6 +153,11 @@ de développement. Les journaux séparent ouverture/contrôle du cache, ajusteme
 de l'encodeur, chargement/encodage des lots, apprentissage, validation et mémoire.
 Le pic mémoire du processus est cumulatif : il n'est pas remis à zéro entre
 CNN et GRU. Une époque sur un fold ne classe pas définitivement les architectures.
+
+Sur le run terminé : CNN 30,90 s, BiGRU 245,66 s, encodeur 3,62 s, pic RSS
+1 195 Mio. Le minimum disponible pendant l'exécution est de 1 954 Mio.
+Les cinq époques proposées pour la suite ne sont ni implémentées dans ce
+lanceur ni exécutées ; leur budget estimatif reste une décision à prendre.
 
 ## Interprétation et C++
 

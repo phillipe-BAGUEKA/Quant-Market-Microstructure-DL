@@ -1,0 +1,87 @@
+{
+  "utc_start": "2026-11-04T07:30:13.106471+00:00",
+  "available_mib": 2992.67578125,
+  "required_initial_mib": 2560,
+  "running_guard_mib": 384,
+  "cache_files_sha256_match": true,
+  "cache_hash_seconds": 1.8034213000210002,
+  "code_unchanged_since_first_attempt": true,
+  "raw_x_and_test_open_guard": true,
+  "from_initialization": true,
+  "cache_directory": "data/processed/20261104-sequences-development",
+  "memory_wait_samples": [
+    {
+      "seconds": 0.00015790003817528486,
+      "available_mib": 1926.3046875
+    },
+    {
+      "seconds": 10.001027500024065,
+      "available_mib": 1873.39453125
+    },
+    {
+      "seconds": 20.00165040011052,
+      "available_mib": 1859.5234375
+    },
+    {
+      "seconds": 30.002996100112796,
+      "available_mib": 1903.64453125
+    },
+    {
+      "seconds": 40.00439970009029,
+      "available_mib": 1841.64453125
+    },
+    {
+      "seconds": 50.006321700057015,
+      "available_mib": 1983.7734375
+    },
+    {
+      "seconds": 60.00708130002022,
+      "available_mib": 1966.296875
+    },
+    {
+      "seconds": 70.00844800006598,
+      "available_mib": 1960.2109375
+    },
+    {
+      "seconds": 80.00946640002076,
+      "available_mib": 1914.55859375
+    },
+    {
+      "seconds": 90.0106774000451,
+      "available_mib": 1957.41015625
+    },
+    {
+      "seconds": 100.0119441000279,
+      "available_mib": 1940.80078125
+    },
+    {
+      "seconds": 110.0135679000523,
+      "available_mib": 1974.24609375
+    },
+    {
+      "seconds": 120.01475460000802,
+      "available_mib": 1944.77734375
+    },
+    {
+      "seconds": 130.0163233000785,
+      "available_mib": 1974.2578125
+    },
+    {
+      "seconds": 140.01848360011354,
+      "available_mib": 1988.12109375
+    },
+    {
+      "seconds": 150.01950210006908,
+      "available_mib": 1863.9375
+    },
+    {
+      "seconds": 160.02101830008905,
+      "available_mib": 2937.55859375
+    },
+    {
+      "seconds": 170.0225387000246,
+      "available_mib": 2992.67578125
+    }
+  ],
+  "memory_wait_seconds": 170.02331430010963
+}

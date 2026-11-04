@@ -1,0 +1,17 @@
+{
+  "cause": "Windows Modern Standby, reason Lid, during BiGRU training",
+  "evidence": "Windows System log, Microsoft-Windows-Kernel-Power",
+  "sleep_event_id": 506,
+  "sleep_local_time": "2026-11-04T09:11:40.3061747+02:00",
+  "wake_event_id": 507,
+  "wake_local_time": "2026-11-04T09:21:39.5287346+02:00",
+  "sleep_seconds": 599.2225599,
+  "batches_at_previous_progress": 600,
+  "batches_at_stop": 636,
+  "compute_seconds_at_previous_progress": 37.24054049944971,
+  "compute_seconds_at_stop": 639.9159191998187,
+  "guard": "600-second elapsed wall-time budget, cooperative",
+  "model_completed": false,
+  "validation_rows_completed": 0,
+  "scope": "The observed wall-time discontinuity overlaps the OS sleep; it is not evidence of 600 seconds of active GRU computation. No post-hoc validation or adjusted score is reported."
+}

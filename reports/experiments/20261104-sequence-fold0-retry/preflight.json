@@ -1,0 +1,11 @@
+{
+  "available_mib": 3095.16796875,
+  "required_initial_mib": 2560,
+  "running_guard_mib": 384,
+  "cache_files_sha256_match": true,
+  "cache_hash_seconds": 1.2642844999209046,
+  "code_unchanged_since_first_attempt": true,
+  "raw_x_and_test_open_guard": true,
+  "from_initialization": true,
+  "cache_directory": "data/processed/20261104-sequences-development"
+}

@@ -19,7 +19,7 @@ restent des hypothèses distinctes à tester.
 | B1 : StandardScaler + régression logistique | Évaluée et convergée sur cinq folds réels |
 | Folds par blocs candidats | Implémentés pour sensibilité ; aucune campagne B0/B1 complète avec ce découpage |
 | Cache de séquences ordonnées | Complet et contrôlé : 128 640 observations de développement, 100 événements chacune |
-| CNN 1D, GRU bidirectionnel | Pilotes CPU disponibles ; première époque CNN interrompue par le garde mémoire, aucune validation séquentielle complète |
+| CNN 1D, GRU bidirectionnel | Une époque CPU et validation complète du fold 0 terminées ; pas encore de campagne à cinq folds |
 | CNN–LSTM, TCN, InceptionTime, MiniRocket multivarié | Prévus ; pas encore implémentés |
 | Composante C++ | Prévue après profilage ; aucun noyau implémenté |
 
@@ -95,10 +95,29 @@ Les modèles ajustés n'ont pas été sérialisés ; les résultats sont conserv
 Les [pilotes séquentiels historiques](reports/experiments/20261103-sequence-results.md)
 vérifient les dimensions, la loss et la rétropropagation sur un petit train.
 Le [jalon suivant](reports/experiments/20261104-sequence-results.md) a construit
-et contrôlé le cache complet en 385,70 s. La première tentative d'époque CNN
-s'est arrêtée à 82 688 observations de train quand la RAM disponible est passée
-sous 384 Mio. Il n'existe pas encore de score séquentiel de validation comparable
-à B1 ; une loss partielle de train ne le remplace pas.
+et contrôlé le cache complet en 385,70 s. Après une interruption mémoire puis
+une veille liée au capot, la [reprise finale](reports/experiments/20261104-sequence-retry-results.md)
+a terminé les deux réseaux sans relire les événements de X.
+
+## Premiers résultats séquentiels : fold 0 uniquement
+
+| Modèle | Accuracy | Macro-F1 | Cross-entropy | Log-loss | Train + validation et contrôles |
+|---|---:|---:|---:|---:|---:|
+| CNN 1D, une époque | 0,186956 | 0,134861 | 2,519680 | 2,519327 | 30,90 s |
+| BiGRU, une époque | 0,185285 | 0,153399 | 2,487352 | 2,487352 | 245,66 s |
+
+Chaque réseau a traité 102 912 observations train et 25 728 observations de
+validation. L'encodeur est ajusté uniquement sur le train ; le lockbox et le
+test restent réservés. Pic RSS du processus : 1 195 Mio. Les
+[matrices de confusion 24 × 24](reports/experiments/20261104-sequence-confusions.md)
+et les durées détaillées sont archivées.
+
+B1, convergée, reste meilleure sur ce fold (accuracy 0,279345, macro-F1 0,268133,
+log-loss 2,286558). **Une seule époque et un seul fold ne classent pas
+définitivement les architectures.** Le petit écart entre cross-entropy et
+log-loss du CNN vient du clipping de probabilités très faibles par scikit-learn.
+Les paramètres, architectures, graines et partitions n'ont pas changé entre
+les tentatives ; les poids des réseaux ne sont pas sauvegardés.
 
 ## Installation et contrôles courts
 
@@ -184,10 +203,12 @@ historiques pour actualiser l'état courant.
 
 ## Prochaines étapes
 
-1. Libérer de la RAM avant la reprise de l'expérience : viser 2,5 Gio disponibles.
-   Le cache complet est terminé et réutilisable, sans nouveau scan X.
-2. Terminer une époque CNN 1D/GRU sur le fold 0 avec le budget de dix minutes
-   par modèle, puis comparer les métriques de validation à B1 sur ce même fold.
+1. Décider du prochain budget et des modèles à approfondir à partir de ces
+   premiers résultats. Proposition non lancée : cinq époques CNN/BiGRU,
+   environ 23 minutes projetées, budget prudent de 35 minutes en local.
+2. Ajouter, si cette suite est retenue, courbes par époque et checkpoints.
+   Le lanceur actuel exécute une époque ; aucun entraînement multi-époques
+   ou séquentiel à cinq folds n'a encore été réalisé.
 3. Comparer les autres familles retenues avec des budgets explicités.
 4. Profiler lecture/assemblage, transformations, chargement et réseau avant
    de choisir un noyau C++ commun aux modèles séquentiels.

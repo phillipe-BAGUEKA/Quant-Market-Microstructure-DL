@@ -1,0 +1,32 @@
+{
+  "CNN1D": {
+    "complete": true,
+    "train_rows": 102912,
+    "validation_rows": 25728,
+    "confusion_shape": [
+      24,
+      24
+    ],
+    "class_support": 1072,
+    "accuracy_recomputed": 0.18695584577114427,
+    "macro_f1_recomputed": 0.13486076375123227,
+    "total_seconds": 30.896370099973865
+  },
+  "BiGRU": {
+    "complete": true,
+    "train_rows": 102912,
+    "validation_rows": 25728,
+    "confusion_shape": [
+      24,
+      24
+    ],
+    "class_support": 1072,
+    "accuracy_recomputed": 0.18528451492537312,
+    "macro_f1_recomputed": 0.15339881316580753,
+    "total_seconds": 245.65792649996
+  },
+  "cnn_exact_repeat": true,
+  "same_B1_protocol_and_selection": true,
+  "source_code_unchanged": true,
+  "cache_unchanged_after_runs": true
+}
