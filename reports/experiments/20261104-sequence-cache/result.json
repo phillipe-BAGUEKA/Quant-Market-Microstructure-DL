@@ -1,0 +1,27 @@
+{
+  "stage": "complete",
+  "total_seconds": 392.7225289000198,
+  "rss_mib": 841.421875,
+  "peak_rss_mib": 972.5,
+  "available_mib": 926.36328125,
+  "preparation_seconds": 385.6951757000061,
+  "total_rows": 128640,
+  "event_count": 12864000,
+  "alignment_checked": true,
+  "finite_numeric_checked": true,
+  "categorical_bounds_checked": true,
+  "lockbox_excluded": true,
+  "event_order": "source order retained by iter_observations and direct ordered copy; synthetic exact-order regression test",
+  "cache_bytes": 762193318,
+  "cache_sha256": {
+    "categorical.npy": "7f15f2dd2a7f4d6f4d224f80ccf88a8ed3a07e2e073422dd6827b1e1f1d5ade7",
+    "labels.npy": "094a476ae5e399d4523624148386032b63f775b081fd6aefc41ba354aeb80c0c",
+    "metadata.json": "de2a4a26467a0bbd11e47d64e9ae0e64b3f3e676027697db97adc581627edab8",
+    "numeric.npy": "02c2ebdfc03812f6e8b97273ca3a13d4f670d14797bd24697f69085af10416fe",
+    "observation_ids.npy": "6822475b027bfaf8501ad272f1646182a5e1e98beb674a4933c35b368930d21d",
+    "ready.npy": "d9fdd17b60fde055d9ee54186ce7ad0d94ff5cce1d3f905d883f87e7b4e3525b",
+    "source_indices.npy": "6822475b027bfaf8501ad272f1646182a5e1e98beb674a4933c35b368930d21d",
+    "venues.npy": "4a09c9678e689eee2d425172d57d67d579bc1c87d3de0f4fb5c685c0007c5aa8"
+  },
+  "models_trained": false
+}

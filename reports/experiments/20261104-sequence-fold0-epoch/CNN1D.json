@@ -1,0 +1,41 @@
+{
+  "model": "CNN1D",
+  "fold": 0,
+  "complete": false,
+  "train_rows_completed": 82688,
+  "validation_rows_completed": 0,
+  "train_batches_completed": 2584,
+  "validation_batches_completed": 0,
+  "train_rows_expected": 102912,
+  "validation_rows_expected": 25728,
+  "initialization_seconds": 0.01767819991800934,
+  "train_loading_encoding_seconds": 5.389135102275759,
+  "train_compute_seconds": 20.454900598153472,
+  "validation_loading_encoding_seconds": 0.0,
+  "validation_forward_seconds": 0.0,
+  "metric_seconds": 0.0,
+  "optimizer": "Adam",
+  "optimizer_defaults": {
+    "lr": 0.001,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0,
+    "amsgrad": false,
+    "maximize": false,
+    "foreach": null,
+    "capturable": false,
+    "differentiable": false,
+    "fused": null,
+    "decoupled_weight_decay": false
+  },
+  "parameters": 2808,
+  "error_type": "RuntimeError",
+  "error": "available RAM below 384 MiB; controlled stop",
+  "last_stage": "train",
+  "total_seconds": 27.27189500001259,
+  "training_cross_entropy_completed_rows": 2.6511917129943243,
+  "process_peak_rss_mib": 1111.08984375
+}

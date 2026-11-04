@@ -1,4 +1,4 @@
-# Cache ordonné et pilotes CPU
+# Cache ordonné et expériences séquentielles CPU
 
 Ce jalon est séparé de B0/B1, publié dans le commit
 `30f3534cfd6e2d640e99d29d660488593146fc7d`. Il ne reproduit pas exactement
@@ -45,7 +45,7 @@ Cet encodage à 20 canaux est un choix de pilote, pas une revendication d'identi
 avec la représentation à 30 canaux du benchmark. Une future campagne devra
 reconstruire l'encodeur pour chaque train de fold.
 
-## Périmètre fixé avant l'exécution réelle
+## Pilote historique sur 512 observations
 
 - Protocole historique : lockbox 20 %, cinq folds stratifiés, graine 42.
 - Seulement les 512 premiers indices globaux du train du fold 0, dans l'ordre
@@ -82,6 +82,58 @@ $env:PYTHONDONTWRITEBYTECODE = "1"
 Choisir un dossier de sortie neuf ; la provenance doit correspondre pour reprendre
 un cache existant. Les données ne sont jamais enregistrées dans les rapports.
 Un manque de mémoire disponible arrête le pilote aux jalons de contrôle.
+
+## Lanceur d'une époque complète sur le fold 0
+
+Le [bilan réel](../reports/experiments/20261104-sequence-results.md) distingue
+cache terminé, exécution tentée et éventuels arrêts. Le lanceur ne constitue
+pas à lui seul la preuve qu'une époque et sa validation ont terminé.
+
+`sequences.experiment` utilise les architectures `PilotCNN` et `PilotBiGRU`
+existantes. Il exige un cache de développement **déjà complet** : cette commande
+ne prépare pas X et refuse un checkpoint partiel avant d'avancer le lecteur.
+
+```powershell
+$env:PYTHONDONTWRITEBYTECODE = "1"
+.\.venv\Scripts\python.exe -u -m cfm_challenge.sequences.experiment --cache data/processed/20261104-sequences-development --output reports/experiments/sequence-fold0-new
+```
+
+Le dossier de résultat doit être neuf. Le protocole reste 20 % de lockbox,
+cinq folds stratifiés, graine 42 ; seul le fold 0 est exécuté. Les indices
+globaux sont localisés dans le cache des 128 640 observations. L'encodeur est
+ajusté sur les 102 912 lignes du train (10 291 200 événements), puis conservé
+inchangé pour les 25 728 lignes de validation et pour les deux réseaux.
+
+| Paramètre fixé avant exécution | Valeur |
+|---|---|
+| Époques / modèle | 1 |
+| Optimiseur | Adam, learning rate 0,001 ; valeurs effectives archivées |
+| Taille des lots | 32, dernier lot conservé |
+| Ordre du train | permutation NumPy déterministe, graine 42 |
+| CPU | deux threads PyTorch, algorithmes déterministes |
+| Budget par modèle | 600 s : initialisation, train, validation et métriques |
+| Arrêt mémoire | RAM disponible sous 384 Mio |
+
+Le plafond est coopératif, contrôlé entre les lots et après les phases ; il
+peut être dépassé du temps d'une opération en cours. En cas d'arrêt, le JSON
+du modèle conserve l'étape et les nombres de lignes et lots terminés. Aucun
+résultat partiel n'est présenté comme une validation complète. Les poids ne
+sont pas archivés : les journaux permettent de reproduire l'expérience, pas
+de reprendre un apprentissage interrompu. La reprise concerne le cache.
+
+La validation s'exécute en `eval()` et `no_grad()`. La cross-entropy est une
+somme de pertes calculées par log-softmax float64, divisée par le nombre total
+d'observations ; elle ne moyenne pas à poids égal des lots de tailles différentes.
+La log-loss, l'accuracy, la macro-F1 et la confusion 24 × 24 utilisent les métriques
+tabulaires existantes, dans l'ordre des classes 0 à 23. Les éventuels clips de
+probabilités par scikit-learn sont comptés. La loss moyenne du train est celle
+observée au fil des mises à jour, pas une seconde évaluation du train final.
+
+Le manifeste fixe paramètres, versions, empreintes du code, de y et des indices
+de développement. Les journaux séparent ouverture/contrôle du cache, ajustement
+de l'encodeur, chargement/encodage des lots, apprentissage, validation et mémoire.
+Le pic mémoire du processus est cumulatif : il n'est pas remis à zéro entre
+CNN et GRU. Une époque sur un fold ne classe pas définitivement les architectures.
 
 ## Interprétation et C++
 

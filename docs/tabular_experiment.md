@@ -97,8 +97,9 @@ cet apprentissage ne constitue plus un prérequis à leur implémentation.
 Les résumés tabulaires ne reconstruisent pas les événements ordonnés. Le
 [jalon séquentiel](sequences.md) conserve les 100 événements, canaux numériques,
 catégories brutes, identifiants et indices sources dans des tableaux mappés.
-Il est qualifié sur des données synthétiques et 512 observations réelles ; le
-cache complet reste à construire. Les vocabulaires et normalisations restent
+Il est qualifié sur des données synthétiques et son cache complet de 128 640
+observations a été construit et contrôlé le 4 novembre 2026. Les vocabulaires
+et normalisations restent
 propres au train. Ce cache nécessite une nouvelle lecture de X et ne matérialise
 ni embeddings globaux ni cinq copies des données.
 
@@ -130,7 +131,9 @@ s'ajoutent. Les codes et bornes exacts seront vérifiés avant tout choix de dty
 
 La qualification synthétique et les pilotes CPU bornés CNN 1D/GRU bidirectionnel
 sont terminés ; voir le [bilan séquentiel](../reports/experiments/20261103-sequence-results.md).
-Le cache complet reste à construire après résolution de la contrainte mémoire.
+Le cache complet a ensuite été construit en 385,70 secondes, avec contrôles
+mémoire et d'alignement ; le [nouveau bilan](../reports/experiments/20261104-sequence-results.md)
+est séparé des pilotes historiques.
 Le coût mesuré des agrégats tabulaires ne suffit pas à désigner le goulot du
 pipeline séquentiel ; le profilage de celui-ci est rapporté séparément.
 

@@ -1,0 +1,24 @@
+{
+  "split": {
+    "lockbox_fraction": 0.2,
+    "n_splits": 5,
+    "seed": 42,
+    "candidate_block_size": 480
+  },
+  "rows": 128640,
+  "lockbox_rows": 32160,
+  "chunk_size": 20000,
+  "max_seconds": 600,
+  "initial_minimum_available_mib": 1024,
+  "running_minimum_available_mib": 384,
+  "python": "3.12.6",
+  "numpy": "2.5.3",
+  "psutil": "7.2.2",
+  "x_size": 1278403823,
+  "x_mtime_ns": 1788811271503193700,
+  "y_sha256": "0fcb04d1b6b7c94de6b10db594ac16d1ef60a43bef8a52e4f20214699dd514a2",
+  "source_indices_sha256": "2b2c6ca3c9a6c12d5d4636729951c153ea9420ce4026cf90aa10a22025ad4a11",
+  "cache_code_sha256": "a3346b4e0f5b2379be3e01a9593a08b45c4e7e7a75c5c4f900df92bc35b9f5fb",
+  "cache_directory": "data/processed/20261104-sequences-development",
+  "scope": "development only; no learned encoder, training, validation score or lockbox evaluation"
+}

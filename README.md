@@ -18,8 +18,8 @@ restent des hypothèses distinctes à tester.
 | B0 : DummyClassifier(strategy="prior") | Évaluée sur cinq folds avec vrais labels |
 | B1 : StandardScaler + régression logistique | Évaluée et convergée sur cinq folds réels |
 | Folds par blocs candidats | Implémentés pour sensibilité ; aucune campagne B0/B1 complète avec ce découpage |
-| Cache de séquences ordonnées | Implémenté et testé ; cache réel de 512 observations qualifié ; cache complet non construit |
-| CNN 1D, GRU bidirectionnel | Implémentations pilotes ; huit lots CPU de train réussis, aucune évaluation de validation |
+| Cache de séquences ordonnées | Complet et contrôlé : 128 640 observations de développement, 100 événements chacune |
+| CNN 1D, GRU bidirectionnel | Pilotes CPU disponibles ; première époque CNN interrompue par le garde mémoire, aucune validation séquentielle complète |
 | CNN–LSTM, TCN, InceptionTime, MiniRocket multivarié | Prévus ; pas encore implémentés |
 | Composante C++ | Prévue après profilage ; aucun noyau implémenté |
 
@@ -92,10 +92,13 @@ décrit les incidents, temps, mémoire et limites. Le
 conserve les paramètres et empreintes réellement exécutés.
 Les modèles ajustés n'ont pas été sérialisés ; les résultats sont conservés.
 
-Les [pilotes séquentiels](reports/experiments/20261103-sequence-results.md) vérifient
-les dimensions, la loss et la rétropropagation sur un sous-ensemble du train.
-Ils ne fournissent aucun score comparable au tableau B0/B1. La préparation du
-cache complet s'est arrêtée au contrôle mémoire avant toute lecture de X.
+Les [pilotes séquentiels historiques](reports/experiments/20261103-sequence-results.md)
+vérifient les dimensions, la loss et la rétropropagation sur un petit train.
+Le [jalon suivant](reports/experiments/20261104-sequence-results.md) a construit
+et contrôlé le cache complet en 385,70 s. La première tentative d'époque CNN
+s'est arrêtée à 82 688 observations de train quand la RAM disponible est passée
+sous 384 Mio. Il n'existe pas encore de score séquentiel de validation comparable
+à B1 ; une loss partielle de train ne le remplace pas.
 
 ## Installation et contrôles courts
 
@@ -168,6 +171,7 @@ src/cfm_challenge/
     cache.py                séquences brutes ordonnées et reprise
     models.py               encodeur train-only, petits CNN/GRU pilotes
     pilot.py                pilote CPU borné, sans score de validation
+    experiment.py           une époque CPU sur le fold 0 depuis le cache complet
 tests/unit/                 tests synthétiques
 docs/                       contrats et guides actuels
 reports/                    preuves historiques
@@ -180,10 +184,10 @@ historiques pour actualiser l'état courant.
 
 ## Prochaines étapes
 
-1. Construire le cache complet des événements lorsque la RAM disponible permet
-   le garde initial de 1 Gio ; le cache et les pilotes bornés sont déjà qualifiés.
-2. Mesurer une première époque CNN 1D/GRU sur un fold avec un budget fixé, avant
-   toute campagne complète. Aucun score séquentiel de validation n'existe encore.
+1. Libérer de la RAM avant la reprise de l'expérience : viser 2,5 Gio disponibles.
+   Le cache complet est terminé et réutilisable, sans nouveau scan X.
+2. Terminer une époque CNN 1D/GRU sur le fold 0 avec le budget de dix minutes
+   par modèle, puis comparer les métriques de validation à B1 sur ce même fold.
 3. Comparer les autres familles retenues avec des budgets explicités.
 4. Profiler lecture/assemblage, transformations, chargement et réseau avant
    de choisir un noyau C++ commun aux modèles séquentiels.
